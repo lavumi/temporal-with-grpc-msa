@@ -1,0 +1,33 @@
+version: '3.4'
+
+services:
+  crawl:
+    container_name: crawler
+    image: crawl-server:0.0.1
+    ports : 
+      - "3031:8088"
+    networks:
+      - etl-workflow
+  extract:
+    container_name: extractor
+    image: extract-server:0.0.1
+    ports : 
+      - "3032:8088"
+    networks:
+      - etl-workflow
+  transform:
+    container_name: transform
+    image: transform-server:0.0.1
+    ports : 
+      - "3033:8088"
+    networks:
+      - etl-workflow
+  load:
+    container_name: load
+    image: load-server:0.0.1
+    ports : 
+      - "3034:8088"
+    networks:
+      - etl-workflow
+networks:
+    etl-workflow:

@@ -1,0 +1,22 @@
+syntax = "proto3";
+package tempotaletl;
+option go_package = "./proto";
+
+
+message LoadRequest {
+    int32 Start = 1;
+}
+
+message LoadResponse {
+  bool Success = 1;
+  string Result = 2;
+  int32 Data = 3;
+}
+
+service Load {
+  rpc Work(LoadRequest) returns (LoadResponse);
+}
+
+
+//protoc --proto_path=proto --go_out=api --go_opt=paths=import --go-grpc_out=api --go-grpc_opt=paths=import proto/base/*.proto proto/*.proto
+
