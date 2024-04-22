@@ -10,7 +10,9 @@ import (
 )
 
 func Run() {
-	c, err := client.NewLazyClient(client.Options{})
+	c, err := client.NewLazyClient(client.Options{
+		HostPort: "172.30.1.44:7233",
+	})
 	if err != nil {
 		log.Fatalln("Error creating Temporal client", err)
 	}

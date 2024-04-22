@@ -23,6 +23,7 @@
     env GOOS=linux go build -o build/extract-server cmd/extract.go
     env GOOS=linux go build -o build/load-server cmd/load.go
     env GOOS=linux go build -o build/transform-server cmd/transform.go
+    env GOOS=linux go build -o build/worker-server cmd/worker.go
     ```
 
 1. Docker image
@@ -31,11 +32,12 @@
     docker build -f deployments/extract.Dockerfile -t extract-server:0.0.1 .
     docker build -f deployments/load.Dockerfile -t load-server:0.0.1 .
     docker build -f deployments/transform.Dockerfile -t transform-server:0.0.1 .
+    docker build -f deployments/worker.Dockerfile -t worker-server:0.0.1 .
     docker compose up -d
     ```
 
 
-1. Temporal workflow run ( worker and starter)
+1. Temporal workflow run
     ```bash
-    go run cmd/temporal.go
+    go run cmd/starter.go
     ```

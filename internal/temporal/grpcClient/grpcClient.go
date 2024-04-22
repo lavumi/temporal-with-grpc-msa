@@ -33,7 +33,7 @@ type Response struct {
 // }
 
 func CallExtractService(data int32) (*Response, error) {
-	conn, err := grpc.Dial("localhost:3032", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.Dial("extract:8088", grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("Couldnt connect to Extract Service: %v", err)
 		return nil, err
@@ -51,7 +51,7 @@ func CallExtractService(data int32) (*Response, error) {
 }
 
 func CallLoadService(data int32) (*Response, error) {
-	conn, err := grpc.Dial("localhost:3034", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.Dial("load:8088", grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("Couldnt connect to Load Service: %v", err)
 		return nil, err
@@ -69,7 +69,7 @@ func CallLoadService(data int32) (*Response, error) {
 }
 
 func CallTransformService(data int32) (*Response, error) {
-	conn, err := grpc.Dial("localhost:3033", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.Dial("transform:8088", grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("Couldnt connect to Transform Service: %v", err)
 		return nil, err
