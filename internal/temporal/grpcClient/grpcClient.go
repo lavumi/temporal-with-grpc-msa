@@ -4,9 +4,12 @@ import (
 	"context"
 	"log"
 	"tempotaletl/api/proto"
+	"time"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/grpc/status"
 )
 
 type Response struct {
@@ -41,13 +44,28 @@ func CallExtractService(data int32) (*Response, error) {
 	defer conn.Close()
 
 	client := proto.NewExtractClient(conn)
-	response, err := client.Work(context.Background(), &proto.ExtractRequest{
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	response, err := client.Work(ctx, &proto.ExtractRequest{
 		Start: data,
 	})
+
+	if err != nil {
+		if st, ok := status.FromError(err); ok && st.Code() == codes.DeadlineExceeded {
+			log.Printf("call failed: deadline exceeded")
+		} else {
+			log.Fatalf("call failed: %v", err)
+		}
+
+		return nil, err
+	}
+
 	return &Response{
 		Result: response.GetResult(),
 		Data:   response.GetData(),
-	}, err
+	}, nil
 }
 
 func CallLoadService(data int32) (*Response, error) {

@@ -5,12 +5,22 @@ import (
 	grpcclient "tempotaletl/internal/temporal/grpcClient"
 	"time"
 
+	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 )
 
 func ETLWorkflow(ctx workflow.Context) (string, error) {
+
+	rp := temporal.RetryPolicy{
+		InitialInterval:        time.Second,
+		MaximumInterval:        time.Minute,
+		MaximumAttempts:        5,
+		NonRetryableErrorTypes: []string{"BadRequest"},
+	}
+
 	ao := workflow.ActivityOptions{
-		StartToCloseTimeout: 10 * time.Minute,
+		StartToCloseTimeout: 3 * time.Minute,
+		RetryPolicy:         &rp,
 	}
 	ctx = workflow.WithActivityOptions(ctx, ao)
 

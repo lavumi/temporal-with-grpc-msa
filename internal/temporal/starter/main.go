@@ -19,6 +19,7 @@ func Run() {
 	workflowOptions := client.StartWorkflowOptions{
 		ID:        "etl_worlflow",
 		TaskQueue: "etl-process",
+		// CronSchedule: "0 * * * *",
 	}
 
 	we, err := c.ExecuteWorkflow(context.Background(), workflowOptions, etlwork.ETLWorkflow)

@@ -3,6 +3,7 @@ package msaserver
 import (
 	"context"
 	"log"
+	"math/rand"
 	"net"
 	"tempotaletl/api/proto"
 	"time"
@@ -15,7 +16,10 @@ type ExtractService struct {
 }
 
 func (s *ExtractService) Work(_ context.Context, req *proto.ExtractRequest) (*proto.ExtractResponse, error) {
-	time.Sleep(2 * time.Second)
+
+	num := rand.Intn(4) + 3
+
+	time.Sleep(time.Duration(num) * time.Second)
 	return &proto.ExtractResponse{
 		Success: true,
 		Result:  "extract success",
